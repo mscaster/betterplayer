@@ -197,7 +197,11 @@ class _BetterPlayerMaterialControlsState
   }
 
   Widget _buildTopBar(bool visible) {
+    print('VISIBLE ========== 0');
+    print(_controlsConfiguration.enablePip);
+
     if (!betterPlayerController!.controlsEnabled) {
+      print('VISIBLE ========== 0X');
       return const SizedBox();
     }
 
