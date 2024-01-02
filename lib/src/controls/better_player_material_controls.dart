@@ -204,7 +204,7 @@ class _BetterPlayerMaterialControlsState
                           controlsNotVisible, _onPlayerHide)
                     else
                       const SizedBox(),
-                    _buildMoreButton(),
+                    // _buildMoreButton(),
                   ],
                 ),
               ),
@@ -224,6 +224,7 @@ class _BetterPlayerMaterialControlsState
         child: Icon(
           betterPlayerControlsConfiguration.pipMenuIcon,
           color: betterPlayerControlsConfiguration.iconsColor,
+          size: 32,
         ),
       ),
     );
