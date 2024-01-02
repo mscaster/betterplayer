@@ -11,6 +11,7 @@ import 'package:better_player/src/video_player/video_player.dart';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class BetterPlayerMaterialControls extends StatefulWidget {
   ///Callback used to send information if player bar is hidden or not
@@ -33,6 +34,7 @@ class BetterPlayerMaterialControls extends StatefulWidget {
 
 class _BetterPlayerMaterialControlsState
     extends BetterPlayerControlsState<BetterPlayerMaterialControls> {
+  final UniqueKey _key = UniqueKey();
   VideoPlayerValue? _latestValue;
   double? _latestVolume;
   Timer? _hideTimer;
@@ -40,6 +42,7 @@ class _BetterPlayerMaterialControlsState
   Timer? _showAfterExpandCollapseTimer;
   bool _displayTapped = false;
   bool _wasLoading = false;
+  bool _visible = false;
   VideoPlayerController? _controller;
   BetterPlayerController? _betterPlayerController;
   StreamSubscription? _controlsVisibilityStreamSubscription;
@@ -91,24 +94,34 @@ class _BetterPlayerMaterialControlsState
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
       },
-      child: AbsorbPointer(
-        absorbing: controlsNotVisible,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            if (_wasLoading)
-              Center(child: _buildLoadingWidget())
-            else
-              _buildHitArea(),
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: _buildTopBar(),
-            ),
-            Positioned(bottom: 0, left: 0, right: 0, child: _buildBottomBar()),
-            _buildNextVideoWidget(),
-          ],
+      child: VisibilityDetector(
+        key: _key,
+        onVisibilityChanged: (VisibilityInfo info) {
+          if (info.visibleFraction == 1) {
+            setState(() {
+              _visible = true;
+            });
+          }
+        },
+        child: AbsorbPointer(
+          absorbing: controlsNotVisible,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (_wasLoading)
+                Center(child: _buildLoadingWidget())
+              else
+                _buildHitArea(),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: _buildTopBar(_visible),
+              ),
+              Positioned(bottom: 0, left: 0, right: 0, child: _buildBottomBar()),
+              _buildNextVideoWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -182,7 +195,7 @@ class _BetterPlayerMaterialControlsState
     }
   }
 
-  Widget _buildTopBar() {
+  Widget _buildTopBar(bool visible) {
     if (!betterPlayerController!.controlsEnabled) {
       return const SizedBox();
     }
@@ -200,8 +213,7 @@ class _BetterPlayerMaterialControlsState
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (_controlsConfiguration.enablePip)
-                      _buildPipButtonWrapperWidget(
-                          controlsNotVisible, _onPlayerHide)
+                      _buildPipButtonWrapperWidget(controlsNotVisible, _onPlayerHide, visible)
                     else
                       const SizedBox(),
                     _buildMoreButton(),
@@ -229,33 +241,34 @@ class _BetterPlayerMaterialControlsState
     );
   }
 
-  Widget _buildPipButtonWrapperWidget(
-      bool hideStuff, void Function() onPlayerHide) {
-    return FutureBuilder<bool>(
-      future: betterPlayerController!.isPictureInPictureSupported(),
-      builder: (context, snapshot) {
-        final bool isPipSupported = snapshot.data ?? false;
-        if (isPipSupported &&
-            _betterPlayerController!.betterPlayerGlobalKey != null) {
-          return AnimatedOpacity(
-            opacity: hideStuff ? 0.0 : 1.0,
-            duration: betterPlayerControlsConfiguration.controlsHideTime,
-            onEnd: onPlayerHide,
-            child: Container(
-              height: betterPlayerControlsConfiguration.controlBarHeight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  _buildPipButton(),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return const SizedBox();
-        }
-      },
-    );
+  Widget _buildPipButtonWrapperWidget(bool hideStuff, void Function() onPlayerHide, bool visible) {
+    return visible
+      ? FutureBuilder<bool>(
+          future: betterPlayerController!.isPictureInPictureSupported(),
+          builder: (context, snapshot) {
+            final bool isPipSupported = snapshot.data ?? false;
+            if (isPipSupported &&
+                _betterPlayerController!.betterPlayerGlobalKey != null) {
+              return AnimatedOpacity(
+                opacity: hideStuff ? 0.0 : 1.0,
+                duration: betterPlayerControlsConfiguration.controlsHideTime,
+                onEnd: onPlayerHide,
+                child: Container(
+                  height: betterPlayerControlsConfiguration.controlBarHeight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      _buildPipButton(),
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        )
+      : Container();
   }
 
   Widget _buildMoreButton() {
