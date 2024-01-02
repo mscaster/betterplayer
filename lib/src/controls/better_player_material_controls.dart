@@ -220,7 +220,7 @@ class _BetterPlayerMaterialControlsState
             betterPlayerController!.betterPlayerGlobalKey!);
       },
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(15),
         child: Icon(
           betterPlayerControlsConfiguration.pipMenuIcon,
           color: betterPlayerControlsConfiguration.iconsColor,
@@ -351,6 +351,7 @@ class _BetterPlayerMaterialControlsState
                     ? _controlsConfiguration.fullscreenDisableIcon
                     : _controlsConfiguration.fullscreenEnableIcon,
                 color: _controlsConfiguration.iconsColor,
+                size: 28
               ),
             ),
           ),
