@@ -98,6 +98,7 @@ class _BetterPlayerMaterialControlsState
         key: _key,
         onVisibilityChanged: (VisibilityInfo info) {
           if (info.visibleFraction == 1) {
+            print('VISIBLE ==========');
             setState(() {
               _visible = true;
             });
@@ -242,11 +243,16 @@ class _BetterPlayerMaterialControlsState
   }
 
   Widget _buildPipButtonWrapperWidget(bool hideStuff, void Function() onPlayerHide, bool visible) {
+    
+    print('VISIBLE ========== 2');
     return visible
       ? FutureBuilder<bool>(
           future: betterPlayerController!.isPictureInPictureSupported(),
           builder: (context, snapshot) {
+            print('VISIBLE ========== 3');
             final bool isPipSupported = snapshot.data ?? false;
+            print(isPipSupported);
+            print(_betterPlayerController!.betterPlayerGlobalKey != null);
             if (isPipSupported &&
                 _betterPlayerController!.betterPlayerGlobalKey != null) {
               return AnimatedOpacity(
