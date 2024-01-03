@@ -723,8 +723,9 @@ internal class BetterPlayer(
                             .indexOf(mappedTrackInfo.getTrackGroups(rendererIndex).get(groupIndex))
                     )
                 )
+                .build()
 
-            trackSelector.setParameters(builder)
+            trackSelector.parameters = builder
         }
     }
 
