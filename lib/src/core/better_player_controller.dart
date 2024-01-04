@@ -472,10 +472,6 @@ class BetterPlayerController {
           author: _betterPlayerDataSource?.notificationConfiguration?.author,
           imageUrl:
               _betterPlayerDataSource?.notificationConfiguration?.imageUrl,
-          skipForwardTimeInMilliseconds: _betterPlayerDataSource
-              ?.notificationConfiguration?.skipForwardTimeInMilliseconds,
-          skipBackwardTimeInMilliseconds: _betterPlayerDataSource
-              ?.notificationConfiguration?.skipBackwardTimeInMilliseconds,
           notificationChannelName: _betterPlayerDataSource
               ?.notificationConfiguration?.notificationChannelName,
           overriddenDuration: _betterPlayerDataSource!.overriddenDuration,
@@ -508,10 +504,6 @@ class BetterPlayerController {
             author: _betterPlayerDataSource?.notificationConfiguration?.author,
             imageUrl:
                 _betterPlayerDataSource?.notificationConfiguration?.imageUrl,
-            skipForwardTimeInMilliseconds: _betterPlayerDataSource
-                ?.notificationConfiguration?.skipForwardTimeInMilliseconds,
-            skipBackwardTimeInMilliseconds: _betterPlayerDataSource
-                ?.notificationConfiguration?.skipBackwardTimeInMilliseconds,
             notificationChannelName: _betterPlayerDataSource
                 ?.notificationConfiguration?.notificationChannelName,
             overriddenDuration: _betterPlayerDataSource!.overriddenDuration,
@@ -532,10 +524,6 @@ class BetterPlayerController {
                   _betterPlayerDataSource?.notificationConfiguration?.author,
               imageUrl:
                   _betterPlayerDataSource?.notificationConfiguration?.imageUrl,
-              skipForwardTimeInMilliseconds: _betterPlayerDataSource
-                  ?.notificationConfiguration?.skipForwardTimeInMilliseconds,
-              skipBackwardTimeInMilliseconds: _betterPlayerDataSource
-                  ?.notificationConfiguration?.skipBackwardTimeInMilliseconds,
               notificationChannelName: _betterPlayerDataSource
                   ?.notificationConfiguration?.notificationChannelName,
               overriddenDuration: _betterPlayerDataSource!.overriddenDuration,
