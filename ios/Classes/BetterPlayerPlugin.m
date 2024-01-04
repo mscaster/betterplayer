@@ -421,9 +421,9 @@ bool _remoteCommandsInitialized = false;
         } else if ([@"seekTo" isEqualToString:call.method]) {
             [player seekTo:[argsMap[@"location"] intValue]];
             result(nil);
-        } else if ([@"pause" isEqualToString:call.method]) {
-            [player pause];
-            result(nil);
+        //} else if ([@"pause" isEqualToString:call.method]) {
+        //    [player pause];
+        //    result(nil);
         } else if ([@"setSpeed" isEqualToString:call.method]) {
             [player setSpeed:[[argsMap objectForKey:@"speed"] doubleValue] result:result];
         }else if ([@"setTrackParameters" isEqualToString:call.method]) {
