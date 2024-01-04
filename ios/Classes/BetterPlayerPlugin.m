@@ -117,8 +117,6 @@ bool _remoteCommandsInitialized = false;
     NSString* title = dataSource[@"title"];
     NSString* author = dataSource[@"author"];
     NSString* imageUrl = dataSource[@"imageUrl"];
-    int64_t skipForwardTimeInMilliseconds = [dataSource[@"skipForwardTimeInMilliseconds"] intValue];
-    int64_t skipBackwardTimeInMilliseconds = [dataSource[@"skipBackwardTimeInMilliseconds"] intValue];
 
     if (showNotification){
         [self setRemoteCommandsNotificationActive];
@@ -156,9 +154,6 @@ bool _remoteCommandsInitialized = false;
         [commandCenter.changePlaybackPositionCommand setEnabled:YES];
     }
 
-    commandCenter.skipForwardCommand.preferredIntervals = @[@(skipForwardTimeInMilliseconds/1000)];
-    commandCenter.skipBackwardCommand.preferredIntervals = @[@(skipBackwardTimeInMilliseconds/1000)];
-
     [commandCenter.togglePlayPauseCommand addTargetWithHandler: ^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
         if (_notificationPlayer != [NSNull null]){
             if (_notificationPlayer.isPlaying){
@@ -184,21 +179,7 @@ bool _remoteCommandsInitialized = false;
         return MPRemoteCommandHandlerStatusSuccess;
     }];
 
-    [commandCenter.skipForwardCommand addTargetWithHandler:  ^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-        if (_notificationPlayer != [NSNull null]){
-            int64_t millis = [_notificationPlayer position] + skipForwardTimeInMilliseconds;
-            _notificationPlayer.eventSink(@{@"event" : @"seek", @"position": @(millis)});
-        }
-        return MPRemoteCommandHandlerStatusSuccess;
-    }];
 
-    [commandCenter.skipBackwardCommand addTargetWithHandler:  ^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-        if (_notificationPlayer != [NSNull null]){
-            int64_t millis = [_notificationPlayer position] - skipBackwardTimeInMilliseconds;
-            _notificationPlayer.eventSink(@{@"event" : @"seek", @"position": @(millis)});
-        }
-        return MPRemoteCommandHandlerStatusSuccess;
-    }];
 
     if (@available(iOS 9.1, *)) {
         [commandCenter.changePlaybackPositionCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
