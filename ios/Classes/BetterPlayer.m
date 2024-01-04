@@ -151,7 +151,7 @@ AVPictureInPictureController *_pipController;
 
         }
 #ifdef BETTER_PLAYER_FLUTTER_TEXTURE
-      //[_player pause];
+      [_player pause];
       _isPlaying = false;
       _displayLink.paused = YES;
 #endif
@@ -406,7 +406,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
             _player.rate = _playerRate;
         }
     } else {
-        //[_player pause];
+        [_player pause];
     }
 #ifdef BETTER_PLAYER_FLUTTER_TEXTURE
     _displayLink.paused = !_isPlaying;
@@ -504,7 +504,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     ///When player is playing, pause video, seek to new position and start again. This will prevent issues with seekbar jumps.
     bool wasPlaying = _isPlaying;
     if (wasPlaying){
-        //[_player pause];
+        [_player pause];
     }
 
     [_player seekToTime:CMTimeMake(location, 1000)
