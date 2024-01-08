@@ -151,7 +151,8 @@ AVPictureInPictureController *_pipController;
 
         }
 #ifdef BETTER_PLAYER_FLUTTER_TEXTURE
-      //[_player pause];
+      NSLog(@"XXXXXXXXX BETTER_PLAYER_FLUTTER_TEXTURE");
+      [_player pause];
       _isPlaying = false;
       _displayLink.paused = YES;
 #endif
@@ -783,7 +784,11 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 /// so the channel is going to die or is already dead.
 - (void)disposeSansEventChannel {
     @try{
+        NSLog(@"Dispose XXXXXXXXX");
+
+         if (_pipController.pictureInPictureActive != true){
         [self clear];
+         }
 #ifdef BETTER_PLAYER_FLUTTER_TEXTURE
         [_displayLink invalidate];
 #endif
@@ -794,6 +799,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (void)dispose {
+    NSLog(@"PAUSE XXXXXXXXX");
     [self pause];
     [self disposeSansEventChannel];
     [_eventChannel setStreamHandler:nil];
