@@ -654,8 +654,10 @@ class BetterPlayerController {
       throw StateError("The data source has not been initialized");
     }
 
-    await videoPlayerController!.pause();
-    _postEvent(BetterPlayerEvent(BetterPlayerEventType.pause));
+    if(!_wasInPipMode) {
+      await videoPlayerController!.pause();
+      _postEvent(BetterPlayerEvent(BetterPlayerEventType.pause));
+    }
   }
 
   ///Move player to specific position/moment of the video.
@@ -940,6 +942,7 @@ class BetterPlayerController {
   ///used. If showNotification is set in data source or handleLifecycle is false
   /// then this logic will be ignored.
   void onPlayerVisibilityChanged(double visibilityFraction) async {
+
     _isPlayerVisible = visibilityFraction > 0;
     if (_disposed) {
       return;
@@ -953,6 +956,7 @@ class BetterPlayerController {
             .playerVisibilityChangedBehavior!(visibilityFraction);
       } else {
         if (visibilityFraction == 0) {
+
           _wasPlayingBeforePause ??= isPlaying();
           pause();
         } else {
@@ -1027,6 +1031,7 @@ class BetterPlayerController {
   ///state, then video playback will stop. If showNotification is set in data
   ///source or handleLifecycle is false then this logic will be ignored.
   void setAppLifecycleState(AppLifecycleState appLifecycleState) {
+
     if (_isAutomaticPlayPauseHandled()) {
       _appLifecycleState = appLifecycleState;
       if (appLifecycleState == AppLifecycleState.resumed) {
@@ -1036,6 +1041,7 @@ class BetterPlayerController {
       }
       if (appLifecycleState == AppLifecycleState.paused) {
         _wasPlayingBeforePause ??= isPlaying();
+
         pause();
       }
     }
@@ -1152,7 +1158,12 @@ class BetterPlayerController {
         _postEvent(BetterPlayerEvent(BetterPlayerEventType.play));
         break;
       case VideoEventType.pause:
-        _postEvent(BetterPlayerEvent(BetterPlayerEventType.pause));
+        print('Event PAUSE ------- $_wasInPipMode');
+        if(!_wasInPipMode) {
+          print('Event PAUSE XXXXXXX $_wasInPipMode');
+
+          _postEvent(BetterPlayerEvent(BetterPlayerEventType.pause));
+        }
         break;
       case VideoEventType.seek:
         _postEvent(BetterPlayerEvent(BetterPlayerEventType.seekTo));
