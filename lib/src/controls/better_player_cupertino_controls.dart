@@ -480,7 +480,7 @@ class _BetterPlayerCupertinoControlsState
       return const SizedBox();
     }
     final barHeight = topBarHeight * 0.8;
-    final iconSize = topBarHeight * 0.4;
+    final iconSize = topBarHeight * 0.7;
     return Container(
       height: barHeight,
       margin: EdgeInsets.only(
@@ -528,16 +528,16 @@ class _BetterPlayerCupertinoControlsState
           const SizedBox(
             width: 4,
           ),
-          if (_controlsConfiguration.enableOverflowMenu)
-            _buildMoreButton(
-              _controller,
-              backgroundColor,
-              iconColor,
-              barHeight,
-              iconSize,
-              buttonPadding,
-            )
-          else
+          // if (_controlsConfiguration.enableOverflowMenu)
+          //   _buildMoreButton(
+          //     _controller,
+          //     backgroundColor,
+          //     iconColor,
+          //     barHeight,
+          //     iconSize,
+          //     buttonPadding,
+          //   )
+          // else
             const SizedBox(),
         ],
       ),
