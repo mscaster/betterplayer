@@ -12,7 +12,6 @@
 #error Code Requires ARC.
 #endif
 
-
 @implementation BetterPlayerPlugin
 NSMutableDictionary* _dataSourceDict;
 NSMutableDictionary*  _timeObserverIdDict;
@@ -21,7 +20,6 @@ CacheManager* _cacheManager;
 int texturesCount = -1;
 BetterPlayer* _notificationPlayer;
 bool _remoteCommandsInitialized = false;
-
 
 #pragma mark - FlutterPlugin protocol
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -421,9 +419,9 @@ bool _remoteCommandsInitialized = false;
         } else if ([@"seekTo" isEqualToString:call.method]) {
             [player seekTo:[argsMap[@"location"] intValue]];
             result(nil);
-        //} else if ([@"pause" isEqualToString:call.method]) {
-        //    [player pause];
-        //    result(nil);
+        } else if ([@"pause" isEqualToString:call.method]) {
+                [player pause];
+                result(nil);
         } else if ([@"setSpeed" isEqualToString:call.method]) {
             [player setSpeed:[[argsMap objectForKey:@"speed"] doubleValue] result:result];
         }else if ([@"setTrackParameters" isEqualToString:call.method]) {
